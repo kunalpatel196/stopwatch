@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STOP-WATCH</title>
+    <link rel="icon" href="stopwatch.png">
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        .stopwatch{
+            width: 100vw;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('clock-3222267_1280.webp');
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            padding: 48px 0;
+            color: #fff;
+            box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            font-size: 5rem;
+            margin-bottom: 24px;
+            color: #fff; 
+            font-weight: 500;
+            font-family: 'Protest Revolution', sans-serif;
+        }
+        .buttons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .buttons img{
+            width: 60px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        .buttons img:nth-child(2){
+            width: 120px;
+        }
+        span {
+            color: #ff2963;
+        }
+        .running span {
+            color: #26ff00; 
+        }
+        h2{
+            margin-bottom: 50px;
+            font-weight: 800;
+            font-family: 'Agbalumo', system-ui;
+
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="stopwatch">
+        <h2><u><i>created by </i></u><span><b>kp gurjar</b></span></h2>
+        <h1 id="time"><span>00</span>:<span>00</span>:<span>00</span></h1>
+        <div class="buttons">
+            <img src="stop.png" alt="" onclick="stopwatchStop()">
+            <img src="play.png" alt="" onclick="stopwatchStart()">
+            <img src="replay.png" alt="" onclick="stopwatchRestart()">
+        </div>
+    </div>
+</body>
+<script>
+    let [seconds, minutes, hours] = [0, 0, 0];
+    let time = document.getElementById("time");
+    let timer = null;
+
+    function updateDisplay() {
+        let h = formatTime(hours);
+        let m = formatTime(minutes);
+        let s = formatTime(seconds);
+        time.innerHTML = h + ":" + m + ":<span>" + s + "</span>";
+    }
+
+    function formatTime(time) {
+        return time < 10 ? "0" + time : time;
+    }
+
+    function stopwatchStart() {
+        if (timer !== null) {
+            clearInterval(timer);
+        }
+        timer = setInterval(stopwatchTick, 1000);
+        time.classList.add("running");
+    }
+
+    function stopwatchTick() {
+        seconds++;
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+        updateDisplay();
+    }
+
+    function stopwatchStop() {
+        clearInterval(timer);
+        time.classList.remove("running");
+    }
+
+    function stopwatchRestart() {
+        clearInterval(timer);
+        seconds = minutes = hours = 0;
+        updateDisplay();
+        time.classList.remove("running");
+    }
+</script>
+</html>
